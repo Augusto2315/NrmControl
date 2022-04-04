@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "IxXM3iaqYcI+ZYT/1xfP2hnLKu950JCKZ70rPnaTfGU=",
+  "Source": "nrmcontrolapi",
+  "BasePath": "_content/nrmcontrolapi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
