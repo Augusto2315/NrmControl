@@ -7,6 +7,26 @@ class RouteService {
     JwtService jwtService = JwtService();
     jwtService.removeToken();
 
-    Modular.to.navigate('login/');
+    Modular.to.navigate('/login/');
+  }
+
+  void login() {
+    Modular.to.navigate('/login/');
+  }
+
+  void registerUser() {
+    Modular.to.navigate('/register-user/');
+  }
+
+  void home() {
+    Modular.to.navigate('/home/');
+  }
+
+  void despenseType() {
+    Modular.to.navigate('/despense-type/');
+  }
+
+  void editDespenseType() {
+    Modular.to.navigate('/edit-despense-type/');
   }
 }

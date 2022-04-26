@@ -13,6 +13,7 @@ class AppWidget extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RouterOutletController())
       ],
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         title: 'NRM Control',
         theme: ThemeData(primarySwatch: Colors.blue),
         color: Colors.blue,

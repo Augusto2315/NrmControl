@@ -1,28 +1,27 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:nrmcontrolapp/Models/User/user.dart';
 import 'package:nrmcontrolapp/Repository/base_repository.dart';
 
 import '../Models/CustomException/custom_exception.dart';
-import 'package:http/http.dart' as http;
+import '../Services/http_service.dart';
 
 class UserRepository {
   static const String _route = "/user";
 
   Future<User> createUser(User user) async {
     String methodRoute = '${BaseRepository().urlBase}$_route';
-    final response = await http.post(
-      Uri.parse(methodRoute),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(user.toJson()),
+    dynamic response = await HttpService().post(
+      methodRoute,
+      user,
     );
     if (response.statusCode == 200) {
-      return User.fromJson(json.decode(response.toString()));
+      return User.fromJson(json.decode(response.body.toString()));
     }
     CustomException customException =
-        CustomException.fromJson(jsonDecode(response.body));
+        CustomException.fromJson(jsonDecode(response.data));
     throw customException.detail;
   }
 }

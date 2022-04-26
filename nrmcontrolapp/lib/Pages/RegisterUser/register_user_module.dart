@@ -1,7 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:nrmcontrolapp/Pages/RegisterUser/register_user_widget.dart';
 
-class RegisterModule extends Module {
+class RegisterUserModule extends Module {
   @override
   List<Bind> get binds => [];
 

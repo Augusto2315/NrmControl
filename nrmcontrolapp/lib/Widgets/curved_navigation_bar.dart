@@ -1,25 +1,36 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:nrmcontrolapp/Services/route_service.dart';
 
+class PageIndexes {
+  static const homePageIndex = 0;
+  static const despenseTypePageIndex = 1;
+}
+
 class CurvedNavgationBarWidget extends StatelessWidget {
-  CurvedNavgationBarWidget({Key? key}) : super(key: key);
+  final int index;
+  CurvedNavgationBarWidget(this.index, {Key? key}) : super(key: key);
   final RouteService routeService = RouteService();
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
+      index: index,
+      backgroundColor: Colors.lightBlue,
+      color: Colors.white,
       items: const <Widget>[
-        Icon(Icons.home, size: 30),
-        Icon(Icons.money, size: 30),
-        Icon(Icons.login, size: 30),
+        Icon(Icons.home, size: 25),
+        Icon(Icons.money, size: 25),
+        Icon(Icons.settings, size: 25),
+        Icon(Icons.login, size: 25),
       ],
       onTap: (index) {
-        if (index == 0) {
-          Modular.to.navigate("/home/");
-        } else if (index == 1) {
-          Modular.to.navigate("/despenseType/");
-        } else if (index == 2) {
+        if (index == PageIndexes.homePageIndex) {
+          RouteService routeService = RouteService();
+          routeService.home();
+        } else if (index == PageIndexes.despenseTypePageIndex) {
+          RouteService routeService = RouteService();
+          routeService.despenseType();
+        } else if (index == 3) {
           routeService.logout();
         }
       },
