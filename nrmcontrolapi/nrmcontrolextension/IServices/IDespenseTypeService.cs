@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using nrmcontrolextension.Filters;
 using nrmcontrolextension.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace nrmcontrolextension.IServices
 {
     public interface IDespenseTypeService
     {
-        public Task<List<DespenseType>> GetDespenseTypes();
+        public Task<List<DespenseType>> GetDespenseTypesByUser(string userId);
         public Task<DespenseType> InsertDespenseType(DespenseType despenseType);
     }
 }

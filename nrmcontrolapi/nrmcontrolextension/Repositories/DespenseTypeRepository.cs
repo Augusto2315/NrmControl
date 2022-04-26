@@ -1,6 +1,7 @@
 ﻿using BibliotecaDLL.DbContexts;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using nrmcontrolextension.Filters;
 using nrmcontrolextension.IRepositories;
 using nrmcontrolextension.Models;
 using System;
@@ -13,19 +14,22 @@ namespace nrmcontrolextension.Repositories
 {
     public class DespenseTypeRepository : IDespenseTypeRepository
     {
-        private MongoDbContext _Connection;
+        private readonly MongoDbContext _Connection;
         public DespenseTypeRepository()
         {
             this._Connection = new MongoDbContext();
-            if (this._Connection == null)
-            {
-                throw new ArgumentNullException(nameof(this._Connection));
-            }
         }
 
-        public async Task<List<DespenseType>> GetDespensesTypes()
+        public async Task<List<DespenseType>> GetDespensesTypesByUser(DespenseTypeFilter despenseTypeFilter)
         {
-            return await _Connection.DespenseTypes.Aggregate(null).ToListAsync();
+            FilterDefinitionBuilder<DespenseType> builder = Builders<DespenseType>.Filter;
+            FilterDefinition<DespenseType> filter = builder.Empty;
+            if (despenseTypeFilter != null && !string.IsNullOrEmpty(despenseTypeFilter.UserId))
+            {
+                filter &= builder.Where(u => u.UserId == despenseTypeFilter.UserId);
+            }
+            List<DespenseType> listaTiposDespesa = await _Connection.DespenseTypes.Find(filter).ToListAsync();
+            return listaTiposDespesa;
         }
 
         public async Task<DespenseType> InsertDespenseType(DespenseType despenseType)
@@ -48,7 +52,10 @@ namespace nrmcontrolextension.Repositories
         {
             ValidateDespenseType(despenseType);
             var filter = Builders<DespenseType>.Filter.Where(e => e.Id == despenseType.Id);
-            var update = Builders<DespenseType>.Update.Set(x => x.Description, despenseType.Description).Set(x => x.MonthFixed, despenseType.MonthFixed).Set(x => x.StartDate, despenseType.StartDate);
+            var update = Builders<DespenseType>.Update
+                .Set(x => x.Description, despenseType.Description)
+                .Set(x => x.MonthFixed, despenseType.MonthFixed)
+                .Set(x => x.StartDate, despenseType.StartDate);
             _Connection.DespenseTypes.UpdateOne(filter, update);
             return despenseType;
         }
@@ -61,11 +68,15 @@ namespace nrmcontrolextension.Repositories
 
         }
 
-        public void ValidateDespenseType(DespenseType despenseType)
+        public static void ValidateDespenseType(DespenseType despenseType)
         {
             if (string.IsNullOrEmpty(despenseType.Description))
             {
-                throw new ArgumentNullException(nameof(despenseType.Description));
+                throw new ArgumentException("Descrição");
+            }
+            else if (string.IsNullOrEmpty(despenseType.UserId))
+            {
+                throw new ArgumentException("Usuário");
             }
         }
     }

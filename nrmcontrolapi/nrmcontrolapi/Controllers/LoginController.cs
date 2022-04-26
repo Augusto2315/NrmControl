@@ -12,8 +12,8 @@ namespace nrmcontrolapi.Controllers
     [ApiController]
     public class LoginController : Controller
     {
-        public IConfiguration _configuration;
-        public IUserService _userService;
+        private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
 
         public LoginController(IConfiguration config, IUserService userService)
         {

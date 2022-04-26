@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace nrmcontrolextension.Utils
 {
-    public class Password
+    public static class Password
     {
         public static string CryptPassword(string password)
         {
             MD5 md5Hash = MD5.Create();
             byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-            StringBuilder sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new();
             for (int i = 0; i < data.Length; i++)
             {
                 sBuilder.Append(data[i].ToString("x2"));

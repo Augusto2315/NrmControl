@@ -5,12 +5,12 @@ using nrmcontrolextension.Models;
 
 namespace nrmcontrolapi.Controllers
 {
-    [Route("api/despenseType")]
+    [Route("api/despense-type")]
     [Authorize]
-    public class DespenseTypeController : Controller
+    public class DespenseTypeController : ControllerBase
     {
 
-        private IDespenseTypeService _despenseTypeService;
+        private readonly IDespenseTypeService _despenseTypeService;
 
         public DespenseTypeController(IDespenseTypeService despenseTypeService)
         {
@@ -18,11 +18,12 @@ namespace nrmcontrolapi.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> Get()
+        [Route("{userId}")]
+        public async Task<IActionResult> GetDespenseTypesByUser( string userId)
         {
             try
             {
-                return Ok(await _despenseTypeService.GetDespenseTypes());
+                return Ok(await _despenseTypeService.GetDespenseTypesByUser(userId));
             }
             catch (Exception ex)
             {

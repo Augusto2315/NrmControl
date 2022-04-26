@@ -11,8 +11,9 @@ namespace nrmcontrolextension.IServices
     public interface IUserService
     {
         public Task<List<User>> GetUsers(UserFilter userFilter);
-        public Task<User> SaveUser(User user);
+        public Task<User> CreateUser(User user);
+        public Task<User> UpdateUser(User user);
         public Task<bool> ValidateLogin(User user);
-        public Task<bool> DeleteUser(User user);
+        public Task DeleteUser(User user);
     }
 }

@@ -1,4 +1,5 @@
-﻿using nrmcontrolextension.IRepositories;
+﻿using nrmcontrolextension.Filters;
+using nrmcontrolextension.IRepositories;
 using nrmcontrolextension.IServices;
 using nrmcontrolextension.Models;
 using System;
@@ -11,15 +12,26 @@ namespace nrmcontrolextension.Services
 {
     public class DespenseTypeService : IDespenseTypeService
     {
-        private IDespenseTypeRepository _IDespenseTypeRepository;
+        private readonly IDespenseTypeRepository _IDespenseTypeRepository;
         public DespenseTypeService(IDespenseTypeRepository iDespenseTypeRepositoy)
         {
             this._IDespenseTypeRepository = iDespenseTypeRepositoy;
         }
-        public async Task<List<DespenseType>> GetDespenseTypes()
+        public async Task<List<DespenseType>> GetDespenseTypesByUser(string userId)
         {
-            return await this._IDespenseTypeRepository.GetDespensesTypes();
+            ValidateUser(userId);
+            DespenseTypeFilter filter = new() { UserId = userId };
+            return await this._IDespenseTypeRepository.GetDespensesTypesByUser(filter);
         }
+
+        private static void ValidateUser(string? userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("O usuário é obrigatório!");
+            }
+        }
+
 
         public async Task<DespenseType> InsertDespenseType(DespenseType despenseType)
         {

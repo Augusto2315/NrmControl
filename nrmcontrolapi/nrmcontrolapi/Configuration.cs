@@ -16,7 +16,7 @@ namespace nrmcontrolapi
 
             builder.Services.AddScoped<IDespenseTypeRepository, DespenseTypeRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IDespenseTypeRepository, DespenseTypeRepository>();
+            builder.Services.AddScoped<IDespenseTypeService, DespenseTypeService>();
             builder.Services.AddScoped<IUserService, UserService>();
         }
     }

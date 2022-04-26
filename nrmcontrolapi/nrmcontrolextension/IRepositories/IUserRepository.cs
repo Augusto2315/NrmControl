@@ -13,8 +13,10 @@ namespace nrmcontrolextension.IRepositories
 
         Task<List<User>> GetUsers(UserFilter userFilter);
 
-        Task<User> SaveUser(User User);
-        Task<bool> ValidateLogin(User User);
-        Task<bool> DeleteUser(User User);
+        Task<User> CreateUser(User user);
+
+        Task<User> UpdateUser(User user);
+        Task<User?> GetUser(User user);
+        Task DeleteUser(User user);
     }
 }

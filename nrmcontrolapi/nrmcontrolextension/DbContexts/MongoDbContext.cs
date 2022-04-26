@@ -13,7 +13,7 @@ namespace BibliotecaDLL.DbContexts
     {
         public static bool IsSSL { get; set; }
 
-        private IMongoDatabase _database { get; }
+        private IMongoDatabase Database { get; }
 
         public MongoDbContext()
         {
@@ -25,11 +25,11 @@ namespace BibliotecaDLL.DbContexts
                     settings.SslSettings = new SslSettings { EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12 };
                 }
                 var mongoClient = new MongoClient(settings);
-                _database = mongoClient.GetDatabase(Connection.DatabaseName);
+                Database = mongoClient.GetDatabase(Connection.DatabaseName);
             }
             catch (Exception ex)
             {
-                throw new Exception("Não foi possível se conectar com o servidor.", ex);
+                throw new ArgumentException("Não foi possível se conectar com o servidor.", ex);
             }
         }
 
@@ -37,7 +37,7 @@ namespace BibliotecaDLL.DbContexts
         {
             get
             {
-                return _database.GetCollection<DespenseType>("DespenseType");
+                return Database.GetCollection<DespenseType>("DespenseType");
             }
         }
 
@@ -45,7 +45,7 @@ namespace BibliotecaDLL.DbContexts
         {
             get
             {
-                return _database.GetCollection<User>("User");
+                return Database.GetCollection<User>("User");
             }
         }
 

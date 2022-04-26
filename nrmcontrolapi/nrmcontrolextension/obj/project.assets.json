@@ -649,7 +649,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://sources.movtech.inf.br:3346/repository/nuget-group": {}
+        "https://sources.movtech.com.br:3346/repository/nuget-group": {}
       },
       "frameworks": {
         "net6.0": {

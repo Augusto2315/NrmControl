@@ -9,3 +9,4 @@ D:\Projetos\nrm_control\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmco
 D:\Projetos\nrm_control\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.dll
 D:\Projetos\nrm_control\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\ref\nrmcontrolextension.dll
 D:\Projetos\nrm_control\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.pdb
+D:\Projetos\nrm_control\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.csproj.AssemblyReference.cache

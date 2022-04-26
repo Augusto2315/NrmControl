@@ -2,6 +2,7 @@
 using nrmcontrolextension.IRepositories;
 using nrmcontrolextension.IServices;
 using nrmcontrolextension.Models;
+using nrmcontrolextension.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace nrmcontrolextension.Services
 {
     public class UserService : IUserService
     {
-        private IUserRepository _IUserRepository;
+        private readonly IUserRepository _IUserRepository;
         public UserService(IUserRepository iUserRepository)
         {
             this._IUserRepository = iUserRepository;
@@ -22,19 +23,33 @@ namespace nrmcontrolextension.Services
             return await this._IUserRepository.GetUsers(userFilter);
         }
 
-        public async Task<User> SaveUser(User user)
+        public async Task<User> CreateUser(User user)
         {
-            return await this._IUserRepository.SaveUser(user);
+            return await this._IUserRepository.CreateUser(user);
         }
 
-        public async Task<bool> DeleteUser(User user)
+        public async Task<User> UpdateUser(User user)
         {
-            return await this._IUserRepository.DeleteUser(user);
+            return await this._IUserRepository.UpdateUser(user);
+        }
+
+        public Task DeleteUser(User user)
+        {
+            return this._IUserRepository.DeleteUser(user);
         }
 
         public async Task<bool> ValidateLogin(User user)
         {
-            return await this._IUserRepository.ValidateLogin(user);
+            User? userBase = await this._IUserRepository.GetUser(user);
+            if (userBase == null)
+            {
+                throw new UnauthorizedAccessException("Usuário não encontrado!");
+            }
+            else if (Password.CryptPassword(user.Password) != userBase.Password)
+            {
+                throw new UnauthorizedAccessException("Usuário não encontrado!");
+            }
+            return true;
         }
     }
 }

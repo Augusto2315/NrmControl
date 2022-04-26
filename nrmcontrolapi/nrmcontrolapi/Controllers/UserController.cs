@@ -7,10 +7,9 @@ using nrmcontrolextension.Models;
 namespace nrmcontrolapi.Controllers
 {
     [Route("api/user")]
-    [Authorize]
     public class UserController : Controller
     {
-        private IUserService _UserService;
+        private readonly IUserService _UserService;
 
         public UserController(IUserService userService)
         {
@@ -18,9 +17,10 @@ namespace nrmcontrolapi.Controllers
         }
 
         [HttpGet()]
+        [Authorize()]
         public async Task<IActionResult> Get()
         {
-            UserFilter userFilter = new UserFilter();
+            UserFilter userFilter = new();
             try
             {
                 return Ok(await _UserService.GetUsers(userFilter));
@@ -32,9 +32,10 @@ namespace nrmcontrolapi.Controllers
         }
 
         [HttpGet("{userId}")]
+        [Authorize()]
         public async Task<IActionResult> Get(string userId)
         {
-            UserFilter userFilter = new UserFilter();
+            UserFilter userFilter = new();
             if (!string.IsNullOrEmpty(userId))
             {
                 userFilter.UserId = userId;
@@ -54,7 +55,21 @@ namespace nrmcontrolapi.Controllers
         {
             try
             {
-                return Ok(await _UserService.SaveUser(user));
+                return Ok(await _UserService.CreateUser(user));
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpPut()]
+        [Authorize()]
+        public async Task<IActionResult> Put([FromBody] User user)
+        {
+            try
+            {
+                return Ok(await _UserService.UpdateUser(user));
             }
             catch (Exception ex)
             {
@@ -82,13 +97,15 @@ namespace nrmcontrolapi.Controllers
 
 
         [HttpDelete("{userId}")]
+        [Authorize()]
         public async Task<IActionResult> Delete(string userId)
         {
-            User user = new User(false, userId, string.Empty);
+            User user = new(false, userId, string.Empty);
 
             try
             {
-                return Ok(await _UserService.DeleteUser(user));
+                await _UserService.DeleteUser(user);
+                return Ok();
             }
             catch (Exception ex)
             {
