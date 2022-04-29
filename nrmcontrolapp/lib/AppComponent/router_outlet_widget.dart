@@ -14,10 +14,12 @@ class RouterOutletWidget extends StatefulWidget {
 class _RouterOutletWidgetState extends State<RouterOutletWidget> {
   @override
   Widget build(BuildContext context) {
-    RouterOutletController controller = context.watch<RouterOutletController>();
-
-    return const Scaffold(
-      body: RouterOutlet(),
+    return Scaffold(
+      backgroundColor: Colors.lightBlue,
+      bottomNavigationBar: context.read<RouterOutletController>().isInLogin
+          ? CurvedNavgationBarWidget()
+          : null,
+      body: const RouterOutlet(),
     );
   }
 }

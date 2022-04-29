@@ -8,13 +8,11 @@ class PageIndexes {
 }
 
 class CurvedNavgationBarWidget extends StatelessWidget {
-  final int index;
-  CurvedNavgationBarWidget(this.index, {Key? key}) : super(key: key);
+  CurvedNavgationBarWidget({Key? key}) : super(key: key);
   final RouteService routeService = RouteService();
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      index: index,
       backgroundColor: Colors.lightBlue,
       color: Colors.white,
       items: const <Widget>[

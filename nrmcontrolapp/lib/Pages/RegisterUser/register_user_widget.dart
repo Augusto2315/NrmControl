@@ -17,60 +17,56 @@ class RegisterUserWidget extends StatelessWidget {
   RegisterUserWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: TextFormField(
-                  controller: _userNameController,
-                  onFieldSubmitted: (String str) =>
-                      focusUsuarioParaSenha.requestFocus(),
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Usuário',
-                  ),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: TextFormField(
+                controller: _userNameController,
+                onFieldSubmitted: (String str) =>
+                    focusUsuarioParaSenha.requestFocus(),
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Usuário',
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: TextFormField(
-                  focusNode: focusUsuarioParaSenha,
-                  onFieldSubmitted: (String str) => registrar(),
-                  controller: _passwordController,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Senha',
-                  ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: TextFormField(
+                focusNode: focusUsuarioParaSenha,
+                onFieldSubmitted: (String str) => registrar(),
+                controller: _passwordController,
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Senha',
                 ),
               ),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  registrar();
-                },
-                child: const Text('Registrar'),
+            ),
+            ElevatedButton(
+              style: style,
+              onPressed: () {
+                registrar();
+              },
+              child: const Text('Registrar'),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+              child: RichText(
+                text: TextSpan(
+                    text: "Entrar",
+                    style: const TextStyle(color: Colors.black),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        goToLogin();
+                      }),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-                child: RichText(
-                  text: TextSpan(
-                      text: "Entrar",
-                      style: const TextStyle(color: Colors.black),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          goToLogin();
-                        }),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

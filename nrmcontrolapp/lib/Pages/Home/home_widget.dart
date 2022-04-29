@@ -6,12 +6,8 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.lightBlue,
-      bottomNavigationBar: CurvedNavgationBarWidget(PageIndexes.homePageIndex),
-      body: const Center(
-        child: Text('HOME'),
-      ),
+    return const Center(
+      child: Text('HOME'),
     );
   }
 }

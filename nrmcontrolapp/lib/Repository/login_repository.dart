@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 // import 'package:dio/dio.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:nrmcontrolapp/AppComponent/router_outlet_controller.dart';
 import 'package:nrmcontrolapp/Models/User/user.dart';
 import 'package:nrmcontrolapp/Repository/base_repository.dart';
 import 'package:nrmcontrolapp/Services/jwt_service.dart';

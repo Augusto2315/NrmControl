@@ -28,11 +28,13 @@ class AppModule extends Module {
         ChildRoute(
           '/',
           child: (context, args) => const RouterOutletWidget(),
+          children: [
+            ModuleRoute('/home', module: HomeModule()),
+            ModuleRoute('/login', module: LoginModule()),
+            ModuleRoute('/register-user', module: RegisterUserModule()),
+            ModuleRoute('/despense-type', module: DespenseTypeModule()),
+            ModuleRoute('/edit-despense-type', module: DespenseTypeFormModule())
+          ],
         ),
-        ModuleRoute('/home', module: HomeModule()),
-        ModuleRoute('/login', module: LoginModule()),
-        ModuleRoute('/register-user', module: RegisterUserModule()),
-        ModuleRoute('/despense-type', module: DespenseTypeModule()),
-        ModuleRoute('/edit-despense-type', module: DespenseTypeFormModule())
       ];
 }

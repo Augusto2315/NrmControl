@@ -30,46 +30,41 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.lightBlue,
-      bottomNavigationBar:
-          CurvedNavgationBarWidget(PageIndexes.despenseTypePageIndex),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: TextFormField(
-                controller: descriptionController,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Descrição',
-                ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: TextFormField(
+              controller: descriptionController,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Descrição',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: Switch(
-                value: despenseType.monthFixed,
-                onChanged: (bool value) => despenseType.monthFixed = value,
-                activeTrackColor: Colors.lightGreenAccent,
-                activeColor: Colors.green,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: Switch(
+              value: despenseType.monthFixed,
+              onChanged: (bool value) => despenseType.monthFixed = value,
+              activeTrackColor: Colors.lightGreenAccent,
+              activeColor: Colors.green,
+            ),
+          ),
+          Visibility(
+            visible: despenseType.monthFixed == true,
+            child: TextFormField(
+              controller: startDateController,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Data Início',
               ),
             ),
-            Visibility(
-              visible: despenseType.monthFixed == true,
-              child: TextFormField(
-                controller: startDateController,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Data Início',
-                ),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
