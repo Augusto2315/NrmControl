@@ -482,7 +482,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "MongoDB.Driver": "2.15.0"
+          "MongoDB.Driver": "2.15.0",
+          "Newtonsoft.Json": "13.0.1"
         },
         "compile": {
           "bin/placeholder/nrmcontrolextension.dll": {}

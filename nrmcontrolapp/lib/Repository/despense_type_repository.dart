@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:nrmcontrolapp/Repository/base_repository.dart';
 
 import '../Models/CustomException/custom_exception.dart';
@@ -28,5 +27,46 @@ class DespenseTypeRepository {
     CustomException customException =
         CustomException.fromJson(jsonDecode(response.body));
     throw customException.detail;
+  }
+
+  Future<DespenseType> createDespenseType(DespenseType despenseType) async {
+    String methodRoute = '${BaseRepository().urlBase}$_route';
+    dynamic response = await HttpService().post(
+      methodRoute,
+      despenseType,
+    );
+    if (response.statusCode == 200) {
+      return DespenseType.fromJson(json.decode(response.body.toString()));
+    }
+    CustomException customException =
+        CustomException.fromJson(jsonDecode(response.data));
+    throw customException.detail;
+  }
+
+  Future<DespenseType> updateDespenseType(DespenseType despenseType) async {
+    String methodRoute = '${BaseRepository().urlBase}$_route';
+    dynamic response = await HttpService().put(
+      methodRoute,
+      despenseType,
+    );
+    if (response.statusCode == 200) {
+      return DespenseType.fromJson(json.decode(response.body.toString()));
+    }
+    CustomException customException =
+        CustomException.fromJson(jsonDecode(response.data));
+    throw customException.detail;
+  }
+
+  Future deleteDespenseType(DespenseType despenseType) async {
+    String methodRoute =
+        '${BaseRepository().urlBase}$_route/${despenseType.id}';
+    dynamic response = await HttpService().delete(
+      methodRoute,
+    );
+    if (response.statusCode != 200) {
+      CustomException customException =
+          CustomException.fromJson(jsonDecode(response.data));
+      throw customException.detail;
+    }
   }
 }

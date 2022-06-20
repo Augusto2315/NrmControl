@@ -43,5 +43,34 @@ namespace nrmcontrolapi.Controllers
                 return Problem(ex.Message);
             }
         }
+
+        [HttpPut()]
+        public async Task<IActionResult> Put([FromBody] DespenseType despenseType)
+        {
+            try
+            {
+                return Ok(await _despenseTypeService.UpdateDespenseType(despenseType));
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+
+        [HttpDelete()]
+        [Route("{despenseId}")]
+        public async Task<IActionResult> Delete(int despenseId)
+        {
+            try
+            {
+                await _despenseTypeService.DeleteDespenseType(new DespenseType(despenseId));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
     }
 }

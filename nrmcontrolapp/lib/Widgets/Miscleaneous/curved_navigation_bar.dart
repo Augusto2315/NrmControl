@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:nrmcontrolapp/Services/route_service.dart';
+import 'package:nrmcontrolapp/Shared/Colors/screen_colors.dart';
 
 class PageIndexes {
   static const homePageIndex = 0;
@@ -10,10 +11,34 @@ class PageIndexes {
 class CurvedNavgationBarWidget extends StatelessWidget {
   CurvedNavgationBarWidget({Key? key}) : super(key: key);
   final RouteService routeService = RouteService();
+
   @override
   Widget build(BuildContext context) {
+    Widget cancelarSaidaWidget = TextButton(
+      child: const Text("Não"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget confirmarSaidaWidget = TextButton(
+      child: const Text("Sim"),
+      onPressed: () {
+        routeService.logout(context);
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Saindo..."),
+      content: const Text("Gostaria de sair do sistema?"),
+      actions: [
+        cancelarSaidaWidget,
+        confirmarSaidaWidget,
+      ],
+    );
+
     return CurvedNavigationBar(
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: ScreenColors.backgroundScreenColor,
       color: Colors.white,
       items: const <Widget>[
         Icon(Icons.home, size: 25),
@@ -23,13 +48,16 @@ class CurvedNavgationBarWidget extends StatelessWidget {
       ],
       onTap: (index) {
         if (index == PageIndexes.homePageIndex) {
-          RouteService routeService = RouteService();
           routeService.home();
         } else if (index == PageIndexes.despenseTypePageIndex) {
-          RouteService routeService = RouteService();
           routeService.despenseType();
         } else if (index == 3) {
-          routeService.logout();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return alert;
+            },
+          );
         }
       },
     );

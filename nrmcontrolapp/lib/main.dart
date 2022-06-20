@@ -5,8 +5,10 @@ import 'package:nrmcontrolapp/AppComponent/app_widget.dart';
 
 void main() {
   Modular.setInitialRoute('/login/');
-  runApp(ModularApp(
-    module: AppModule(),
-    child: const AppWidget(),
-  ));
+  runApp(
+    ModularApp(
+      module: AppModule(),
+      child: const AppWidget(),
+    ),
+  );
 }

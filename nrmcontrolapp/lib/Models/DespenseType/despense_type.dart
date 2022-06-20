@@ -5,13 +5,14 @@ part 'despense_type.g.dart';
 @JsonSerializable()
 class DespenseType {
   final int id;
-  final String description;
-  final String userId;
+  String description;
+  String userId;
   bool monthFixed;
-  final DateTime? startDate;
+  int? iconData;
+  DateTime? startDate;
 
-  DespenseType(
-      this.id, this.description, this.userId, this.monthFixed, this.startDate);
+  DespenseType(this.id, this.description, this.userId, this.monthFixed,
+      this.iconData, this.startDate);
 
   factory DespenseType.fromJson(Map<String, dynamic> json) =>
       _$DespenseTypeFromJson(json);

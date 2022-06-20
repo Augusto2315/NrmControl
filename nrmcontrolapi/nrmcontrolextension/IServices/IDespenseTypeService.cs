@@ -13,5 +13,7 @@ namespace nrmcontrolextension.IServices
     {
         public Task<List<DespenseType>> GetDespenseTypesByUser(string userId);
         public Task<DespenseType> InsertDespenseType(DespenseType despenseType);
+        public Task<DespenseType> UpdateDespenseType(DespenseType despenseType);
+        public Task DeleteDespenseType(DespenseType despenseType);
     }
 }

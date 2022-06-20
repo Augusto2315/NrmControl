@@ -48,23 +48,24 @@ namespace nrmcontrolextension.Repositories
             return despenseType;
         }
 
-        public DespenseType UpdateDespenseType(DespenseType despenseType)
+        public async Task<DespenseType> UpdateDespenseType(DespenseType despenseType)
         {
             ValidateDespenseType(despenseType);
             var filter = Builders<DespenseType>.Filter.Where(e => e.Id == despenseType.Id);
             var update = Builders<DespenseType>.Update
                 .Set(x => x.Description, despenseType.Description)
                 .Set(x => x.MonthFixed, despenseType.MonthFixed)
-                .Set(x => x.StartDate, despenseType.StartDate);
-            _Connection.DespenseTypes.UpdateOne(filter, update);
+                .Set(x => x.StartDate, despenseType.StartDate)
+                .Set(x => x.IconData, despenseType.IconData);
+            await _Connection.DespenseTypes.UpdateOneAsync(filter, update);
             return despenseType;
         }
 
 
-        public void DeleteDespenseType(DespenseType despenseType)
+        public async Task DeleteDespenseType(DespenseType despenseType)
         {
             var filter = Builders<DespenseType>.Filter.Where(e => e.Id == despenseType.Id);
-            _Connection.DespenseTypes.DeleteOne(filter);
+            await _Connection.DespenseTypes.DeleteOneAsync(filter);
 
         }
 

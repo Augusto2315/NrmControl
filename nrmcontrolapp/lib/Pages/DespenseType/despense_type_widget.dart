@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:nrmcontrolapp/Pages/DespenseType/Blocs/FindDespensesByUser/find_despenses_by_user_state.dart';
+import 'package:nrmcontrolapp/Pages/DespenseType/DespenseTypeForm/despense_type_form_state.dart';
+import 'package:nrmcontrolapp/Services/despense_type_service.dart';
 import 'package:nrmcontrolapp/Services/route_service.dart';
-import 'package:nrmcontrolapp/Widgets/curved_navigation_bar.dart';
+import 'package:nrmcontrolapp/States/user_state.dart';
+import 'package:provider/provider.dart';
 
 import '../../Models/DespenseType/despense_type.dart';
 import 'Blocs/FindDespensesByUser/find_despenses_by_user_bloc.dart';
-import 'DespenseTypeForm/despense_type_form_widget.dart';
 
 class DespenseTypeWidget extends StatelessWidget {
   DespenseTypeWidget({Key? key}) : super(key: key);
@@ -16,7 +17,8 @@ class DespenseTypeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    findDespenseByUserBloc.add("NoremZ");
+    findDespenseByUserBloc
+        .add(Provider.of<UserState>(context).loggedUser.userId);
     return Column(
       children: [
         Expanded(
@@ -44,12 +46,33 @@ class DespenseTypeWidget extends StatelessWidget {
                       itemCount: state.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
-                          onTap: () => editDespenseType(listaDespesas[index]!),
+                          onTap: () =>
+                              editDespenseType(listaDespesas[index]!, context),
                           child: Container(
                             height: 75,
                             color: Colors.white,
-                            child: Center(
-                                child: Text(listaDespesas[index]!.description)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Spacer(),
+                                Center(
+                                  child: Text(
+                                    listaDespesas[index]!.description,
+                                  ),
+                                ),
+                                const Spacer(),
+                                IconButton(
+                                  onPressed: () => deleteDespenseType(
+                                    context,
+                                    listaDespesas[index]!,
+                                  ),
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -70,7 +93,7 @@ class DespenseTypeWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 FloatingActionButton(
-                  onPressed: () => RouteService().editDespenseType(),
+                  onPressed: () => createDespenseType(context),
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,
                   child: const Icon(Icons.add),
@@ -83,5 +106,22 @@ class DespenseTypeWidget extends StatelessWidget {
     );
   }
 
-  void editDespenseType(DespenseType despenseType) {}
+  void createDespenseType(BuildContext context) {
+    Provider.of<DespenseTypeFormState>(context, listen: false).clearDespense();
+    RouteService().editDespenseType();
+  }
+
+  void editDespenseType(DespenseType despenseType, BuildContext context) {
+    Provider.of<DespenseTypeFormState>(context, listen: false)
+        .alterDespense(despenseType);
+
+    RouteService().editDespenseType();
+  }
+
+  void deleteDespenseType(BuildContext context, DespenseType despenseType) {
+    DespenseTypeService().deleteDespenseType(despenseType).then((value) {
+      findDespenseByUserBloc.add(
+          Provider.of<UserState>(context, listen: false).loggedUser.userId);
+    });
+  }
 }

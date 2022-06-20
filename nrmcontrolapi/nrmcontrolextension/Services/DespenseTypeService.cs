@@ -38,5 +38,15 @@ namespace nrmcontrolextension.Services
             return await this._IDespenseTypeRepository.InsertDespenseType(despenseType);
         }
 
+        public async Task<DespenseType> UpdateDespenseType(DespenseType despenseType)
+        {
+            return await this._IDespenseTypeRepository.UpdateDespenseType(despenseType);
+        }
+
+        public async Task DeleteDespenseType(DespenseType despenseType)
+        {
+            await this._IDespenseTypeRepository.DeleteDespenseType(despenseType);
+        }
+
     }
 }

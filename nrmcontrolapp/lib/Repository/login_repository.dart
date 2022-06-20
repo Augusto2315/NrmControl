@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
 
 // import 'package:dio/dio.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:nrmcontrolapp/AppComponent/router_outlet_controller.dart';
 import 'package:nrmcontrolapp/Models/User/user.dart';
 import 'package:nrmcontrolapp/Repository/base_repository.dart';
 import 'package:nrmcontrolapp/Services/jwt_service.dart';
@@ -24,6 +21,7 @@ class LoginRepository {
       JwtService jwtService = JwtService();
       jwtService.removeToken();
       jwtService.setToken(response.body.toString());
+
       return user;
     }
     CustomException customException =

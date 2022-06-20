@@ -13,7 +13,7 @@ namespace nrmcontrolextension.IRepositories
         Task<List<DespenseType>> GetDespensesTypesByUser(DespenseTypeFilter despenseTypeFilter);
 
         Task<DespenseType> InsertDespenseType(DespenseType despenseType);
-        DespenseType UpdateDespenseType(DespenseType despenseType);
-        void DeleteDespenseType(DespenseType despenseType);
+        Task<DespenseType> UpdateDespenseType(DespenseType despenseType);
+        Task DeleteDespenseType(DespenseType despenseType);
     }
 }

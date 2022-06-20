@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:nrmcontrolapp/AppComponent/router_outlet_controller.dart';
+import 'package:nrmcontrolapp/States/user_state.dart';
+import 'package:provider/provider.dart';
 
-import '../Widgets/curved_navigation_bar.dart';
+import '../Shared/Colors/screen_colors.dart';
+import '../Widgets/Miscleaneous/curved_navigation_bar.dart';
 
 class RouterOutletWidget extends StatefulWidget {
   const RouterOutletWidget({Key? key}) : super(key: key);
@@ -15,8 +17,8 @@ class _RouterOutletWidgetState extends State<RouterOutletWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
-      bottomNavigationBar: context.read<RouterOutletController>().isInLogin
+      backgroundColor: ScreenColors.backgroundScreenColor,
+      bottomNavigationBar: Provider.of<UserState>(context).isInLogin
           ? CurvedNavgationBarWidget()
           : null,
       body: const RouterOutlet(),

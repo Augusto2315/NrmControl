@@ -11,6 +11,7 @@ DespenseType _$DespenseTypeFromJson(Map<String, dynamic> json) => DespenseType(
       json['description'] as String,
       json['userId'] as String,
       json['monthFixed'] as bool,
+      json['iconData'] as int?,
       json['startDate'] == null
           ? null
           : DateTime.parse(json['startDate'] as String),
@@ -22,5 +23,6 @@ Map<String, dynamic> _$DespenseTypeToJson(DespenseType instance) =>
       'description': instance.description,
       'userId': instance.userId,
       'monthFixed': instance.monthFixed,
+      'iconData': instance.iconData,
       'startDate': instance.startDate?.toIso8601String(),
     };

@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:nrmcontrolapp/Models/User/user.dart';
 import 'package:nrmcontrolapp/Repository/base_repository.dart';
 
