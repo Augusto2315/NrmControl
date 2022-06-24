@@ -17,4 +17,9 @@ class DespenseType {
   factory DespenseType.fromJson(Map<String, dynamic> json) =>
       _$DespenseTypeFromJson(json);
   Map<String, dynamic> toJson() => _$DespenseTypeToJson(this);
+
+  @override
+  String toString() {
+    return "id: $id - description: $description - userId: $userId - monthFixed: $monthFixed - iconData: $iconData - startDate: $startDate";
+  }
 }

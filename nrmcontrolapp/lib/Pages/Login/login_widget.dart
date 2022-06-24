@@ -88,7 +88,7 @@ class LoginWidget extends StatelessWidget {
       CustomToast.showError("Informe a senha!", context);
     } else {
       LoginService _loginService = LoginService();
-      _loginService.login(user).then((value) {
+      _loginService.login(user, context).then((value) {
         if (value != null) {
           Provider.of<UserState>(context, listen: false).alterLoginState(true);
           JwtService().getToken().then((jwtToken) {

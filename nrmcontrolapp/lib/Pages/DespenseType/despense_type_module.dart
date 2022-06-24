@@ -14,7 +14,7 @@ class DespenseTypeModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           '/',
-          child: (context, args) => DespenseTypeWidget(),
+          child: (context, args) => const DespenseTypeWidget(),
         ),
       ];
 }

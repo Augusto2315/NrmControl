@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:nrmcontrolapp/Pages/DespenseType/DespenseTypeForm/despense_type_form_state.dart';
 import 'package:nrmcontrolapp/Services/despense_type_service.dart';
+import 'package:nrmcontrolapp/Shared/Icons/flutter_icons.dart';
 import 'package:nrmcontrolapp/Widgets/Miscleaneous/custom_toast.dart';
 import 'package:nrmcontrolapp/Widgets/TextFormWidgets/date_form_field.dart';
 import 'package:nrmcontrolapp/Widgets/TextFormWidgets/string_form_field.dart';
@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import '../../../Models/DespenseType/despense_type.dart';
 import '../../../Models/User/user.dart';
 import '../../../Services/route_service.dart';
+import '../../../Shared/Functions/formats.dart';
+import '../../../Shared/Functions/IconPicker/icon_picker.dart';
 import '../../../States/user_state.dart';
 import '../../../Widgets/ButtonsWIdget/custom_button_widget.dart';
 
@@ -27,17 +29,19 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
   late DespenseType despenseType;
   late DateFormField dateFormFieldWidget = DateFormField(
     controller: startDateController,
+    initialDate: despenseType.startDate,
     labelText: 'Data Início',
   );
 
   @override
   void initState() {
-    // final actValueController = TextEditingController(text: widget.Item.value);
-
-    despenseType = Provider.of<DespenseTypeFormState>(context, listen: false)
-        .getDespense();
+    despenseType =
+        Provider.of<DespenseTypeFormState>(context, listen: false).getDespense;
     descriptionController.text = despenseType.description;
-    startDateController.text = despenseType.startDate.toString();
+    if (despenseType.startDate != null) {
+      startDateController.text =
+          Formats.getDateFormated(despenseType.startDate!);
+    }
     super.initState();
   }
 
@@ -89,27 +93,28 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
                       .getDespenseTypeMonthFixed(),
                   child: dateFormFieldWidget,
                 ),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: _pickIcon,
-                      child: const Text('Open IconPicker'),
-                    ),
-                    const SizedBox(height: 10),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: Provider.of<DespenseTypeFormState>(context)
-                                  .getDespense()
-                                  .iconData !=
-                              null
-                          ? Icon(IconData(
-                              Provider.of<DespenseTypeFormState>(context)
-                                  .getDespense()
-                                  .iconData!))
-                          : Container(),
-                    ),
-                  ],
-                )
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0, 0),
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: _pickIcon,
+                        child: const Text('Escolher Ícone'),
+                      ),
+                      SizedBox(
+                        child: IconButton(
+                          iconSize: 50,
+                          icon: Provider.of<DespenseTypeFormState>(
+                            context,
+                            listen: false,
+                          ).getIcon(),
+                          splashRadius: 20,
+                          onPressed: () => _pickIcon(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -126,23 +131,33 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
   }
 
   _pickIcon() async {
-    IconData? icon = await FlutterIconPicker.showIconPicker(context,
-        iconPackModes: [IconPack.cupertino, IconPack.material]);
+    int? codePointIcon =
+        Provider.of<DespenseTypeFormState>(context, listen: false)
+            .getDespense
+            .iconData;
+
+    IconData? icon = await IconPicker.showIconPicker(
+      context: context,
+      defalutIcon: codePointIcon != null
+          ? IconData(
+              codePointIcon,
+              fontFamily: FlutterIcons.familyPackage,
+            )
+          : null,
+    );
     if (icon != null) {
       Provider.of<DespenseTypeFormState>(context, listen: false)
-          .getDespense()
-          .iconData = icon.codePoint;
-      debugPrint('Picked Icon:  $icon');
+          .setIconCodePoint(icon.codePoint);
     }
   }
 
   saveDespense(BuildContext context) {
-    User user = Provider.of<UserState>(context, listen: false).loggedUser;
+    final User user = Provider.of<UserState>(context, listen: false).loggedUser;
     DespenseType despenseType =
-        Provider.of<DespenseTypeFormState>(context, listen: false)
-            .getDespense();
+        Provider.of<DespenseTypeFormState>(context, listen: false).getDespense;
     despenseType.userId = user.userId;
     despenseType.description = descriptionController.text;
+    debugPrint(despenseType.toString());
     if (despenseType.monthFixed) {
       despenseType.startDate = dateFormFieldWidget.selectedDate;
     } else {
@@ -155,11 +170,21 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
     DespenseTypeService despenseTypeService = DespenseTypeService();
     despenseType.id > 0
         ? despenseTypeService
-            .updateDespenseType(despenseType)
-            .then((value) => goToDespenses(context))
+            .updateDespenseType(
+              despenseType,
+              context,
+            )
+            .then(
+              (value) => goToDespenses(context),
+            )
         : despenseTypeService
-            .createDespenseType(despenseType)
-            .then((value) => goToDespenses(context));
+            .createDespenseType(
+              despenseType,
+              context,
+            )
+            .then(
+              (value) => goToDespenses(context),
+            );
   }
 
   void goToDespenses(BuildContext context) {
@@ -174,7 +199,9 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
       valido = false;
     } else if (despenseType.monthFixed && despenseType.startDate == null) {
       CustomToast.showError(
-          "Informe a data de início da despesa se ela for fixada!", context);
+        "Informe a data de início da despesa se ela for fixada!",
+        context,
+      );
       valido = false;
     }
     return valido;

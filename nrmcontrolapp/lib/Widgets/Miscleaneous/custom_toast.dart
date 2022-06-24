@@ -19,7 +19,7 @@ class CustomToast {
 
   static showWarning(String message, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.yellow,
+      backgroundColor: Colors.amber,
       duration: const Duration(seconds: 10),
       content: Text(message),
     ));

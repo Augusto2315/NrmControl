@@ -26,16 +26,16 @@ namespace nrmcontrolextension.Models
         public DateTime? StartDate { get; set; }
 
         [JsonProperty]
-        public int IconData { get; set; }
+        public int? IconData { get; set; }
 
-        public DespenseType(int id) : this(id, string.Empty, string.Empty, false,0, null) { }
+        public DespenseType(int id) : this(id, string.Empty, string.Empty, false,null, null) { }
 
         [JsonConstructor()]
         public DespenseType(int id,
             string userId,
             string description,
             bool monthFixed,
-            int iconData,
+            int? iconData,
             DateTime? startDate)
         {
             this.Id = id;

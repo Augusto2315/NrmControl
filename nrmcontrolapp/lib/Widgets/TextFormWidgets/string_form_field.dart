@@ -11,6 +11,7 @@ class StringFormField extends StatefulWidget {
       this.isPassword = false,
       this.focusNode,
       this.onFieldSubmitted,
+      this.onChanged,
       this.prefixIcon,
       this.sufixIcon,
       Key? key})
@@ -20,6 +21,7 @@ class StringFormField extends StatefulWidget {
   final String labelText;
   final FocusNode? focusNode;
   final Function(String str)? onFieldSubmitted;
+  final Function(String str)? onChanged;
   bool isPassword;
   final Icon? prefixIcon;
   final Icon? sufixIcon;
@@ -38,6 +40,7 @@ class _StringFormFieldState extends State<StringFormField> {
       enableSuggestions: !widget.isPassword,
       autocorrect: !widget.isPassword,
       onFieldSubmitted: widget.onFieldSubmitted,
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         prefixIcon: widget.isOriginalPassword == true

@@ -89,7 +89,7 @@ class RegisterUserWidget extends StatelessWidget {
     } else {
       UserService _userService = UserService();
       try {
-        _userService.createUser(user).then((value) {
+        _userService.createUser(user, context).then((value) {
           goToLogin();
         });
       } on Exception catch (error) {
