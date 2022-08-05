@@ -10,3 +10,15 @@ D:\Projetos\nrm_control\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmco
 D:\Projetos\nrm_control\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\ref\nrmcontrolextension.dll
 D:\Projetos\nrm_control\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.pdb
 D:\Projetos\nrm_control\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.csproj.AssemblyReference.cache
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\bin\Debug\net6.0\nrmcontrolextension.deps.json
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\bin\Debug\net6.0\nrmcontrolextension.dll
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\bin\Debug\net6.0\ref\nrmcontrolextension.dll
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\bin\Debug\net6.0\nrmcontrolextension.pdb
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.csproj.AssemblyReference.cache
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.AssemblyInfoInputs.cache
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.AssemblyInfo.cs
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.csproj.CoreCompileInputs.cache
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.dll
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\ref\nrmcontrolextension.dll
+E:\Projetos\NrmControl\nrmcontrolapi\nrmcontrolextension\obj\Debug\net6.0\nrmcontrolextension.pdb

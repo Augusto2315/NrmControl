@@ -26,9 +26,12 @@ namespace nrmcontrolextension.Models
         public DateTime? StartDate { get; set; }
 
         [JsonProperty]
+        public double? Value { get; set; }
+
+        [JsonProperty]
         public int? IconData { get; set; }
 
-        public DespenseType(int id) : this(id, string.Empty, string.Empty, false,null, null) { }
+        public DespenseType(int id) : this(id, string.Empty, string.Empty, false,null, null,null) { }
 
         [JsonConstructor()]
         public DespenseType(int id,
@@ -36,7 +39,8 @@ namespace nrmcontrolextension.Models
             string description,
             bool monthFixed,
             int? iconData,
-            DateTime? startDate)
+            DateTime? startDate,
+            double? value)
         {
             this.Id = id;
             this.UserId = userId;
@@ -44,6 +48,7 @@ namespace nrmcontrolextension.Models
             this.MonthFixed = monthFixed;
             this.IconData = iconData;
             this.StartDate = startDate;
+            this.Value = value;
         }
     }
 }
