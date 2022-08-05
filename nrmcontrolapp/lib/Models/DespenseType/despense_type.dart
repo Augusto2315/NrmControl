@@ -10,9 +10,10 @@ class DespenseType {
   bool monthFixed;
   int? iconData;
   DateTime? startDate;
+  double? value;
 
   DespenseType(this.id, this.description, this.userId, this.monthFixed,
-      this.iconData, this.startDate);
+      this.iconData, this.startDate, this.value);
 
   factory DespenseType.fromJson(Map<String, dynamic> json) =>
       _$DespenseTypeFromJson(json);
@@ -20,6 +21,6 @@ class DespenseType {
 
   @override
   String toString() {
-    return "id: $id - description: $description - userId: $userId - monthFixed: $monthFixed - iconData: $iconData - startDate: $startDate";
+    return "id: $id - description: $description - userId: $userId - monthFixed: $monthFixed - iconData: $iconData - startDate: $startDate - value $value";
   }
 }

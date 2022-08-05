@@ -14,14 +14,15 @@ class LoginRepository {
 
   Future<User?> login(User user, BuildContext context) async {
     String methodRoute = '${BaseRepository().urlBase}$_route';
+    JwtService jwtService = JwtService();
+    jwtService.removeToken();
+
     final response = await HttpService().post(
       methodRoute,
       user,
       context,
     );
     if (response.statusCode == 200) {
-      JwtService jwtService = JwtService();
-      jwtService.removeToken();
       jwtService.setToken(response.body.toString());
 
       return user;

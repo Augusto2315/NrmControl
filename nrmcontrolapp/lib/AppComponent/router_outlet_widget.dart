@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:nrmcontrolapp/Services/jwt_service.dart';
 import 'package:nrmcontrolapp/States/user_state.dart';
 import 'package:provider/provider.dart';
 
@@ -14,11 +15,13 @@ class RouterOutletWidget extends StatefulWidget {
 }
 
 class _RouterOutletWidgetState extends State<RouterOutletWidget> {
+  bool userIslogged = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ScreenColors.backgroundScreenColor,
-      bottomNavigationBar: Provider.of<UserState>(context).isInLogin
+      bottomNavigationBar: Provider.of<UserState>(context).userIsLogged()
           ? CurvedNavgationBarWidget()
           : null,
       body: const RouterOutlet(),

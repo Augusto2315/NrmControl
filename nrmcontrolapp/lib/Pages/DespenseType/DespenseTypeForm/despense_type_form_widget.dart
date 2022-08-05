@@ -24,6 +24,7 @@ class DespenseTypeFormWidget extends StatefulWidget {
 
 class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController valueController = TextEditingController();
 
   final TextEditingController startDateController = TextEditingController();
   late DespenseType despenseType;
@@ -38,9 +39,11 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
     despenseType =
         Provider.of<DespenseTypeFormState>(context, listen: false).getDespense;
     descriptionController.text = despenseType.description;
-    if (despenseType.startDate != null) {
+    if (despenseType.monthFixed) {
+      dateFormFieldWidget.selectedDate = despenseType.startDate;
       startDateController.text =
           Formats.getDateFormated(despenseType.startDate!);
+      valueController.text = despenseType.value.toString();
     }
     super.initState();
   }
@@ -52,6 +55,7 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
       child: Column(
         children: [
           Expanded(
+            flex: 1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,8 +70,10 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
             ),
           ),
           Expanded(
+            flex: 5,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 StringFormField(
                   prefixIcon: const Icon(Icons.price_change),
@@ -76,6 +82,7 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text("Despesa Fixa"),
                     Switch(
@@ -92,6 +99,19 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
                   visible: Provider.of<DespenseTypeFormState>(context)
                       .getDespenseTypeMonthFixed(),
                   child: dateFormFieldWidget,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 12.0, 0, 0),
+                  child: Visibility(
+                    visible: Provider.of<DespenseTypeFormState>(context)
+                        .getDespenseTypeMonthFixed(),
+                    child: StringFormField(
+                      prefixIcon: const Icon(Icons.money),
+                      textInputType: TextInputType.number,
+                      labelText: "Valor",
+                      controller: valueController,
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0, 0),
@@ -157,9 +177,9 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
         Provider.of<DespenseTypeFormState>(context, listen: false).getDespense;
     despenseType.userId = user.userId;
     despenseType.description = descriptionController.text;
-    debugPrint(despenseType.toString());
     if (despenseType.monthFixed) {
       despenseType.startDate = dateFormFieldWidget.selectedDate;
+      despenseType.value = double.tryParse(valueController.text);
     } else {
       despenseType.startDate = null;
     }
@@ -197,12 +217,20 @@ class _DespenseTypeFormWidgetState extends State<DespenseTypeFormWidget> {
     if (despenseType.description.isEmpty) {
       CustomToast.showError("Informe a descrição da despesa!", context);
       valido = false;
-    } else if (despenseType.monthFixed && despenseType.startDate == null) {
-      CustomToast.showError(
-        "Informe a data de início da despesa se ela for fixada!",
-        context,
-      );
-      valido = false;
+    } else if (despenseType.monthFixed) {
+      if (despenseType.startDate == null) {
+        CustomToast.showError(
+          "Informe a data de início da despesa se ela for fixada!",
+          context,
+        );
+        valido = false;
+      } else if (despenseType.value == null) {
+        CustomToast.showError(
+          "Informe o valor da despesa fixa!",
+          context,
+        );
+        valido = false;
+      }
     }
     return valido;
   }

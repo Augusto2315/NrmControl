@@ -90,7 +90,6 @@ class LoginWidget extends StatelessWidget {
       LoginService _loginService = LoginService();
       _loginService.login(user, context).then((value) {
         if (value != null) {
-          Provider.of<UserState>(context, listen: false).alterLoginState(true);
           JwtService().getToken().then((jwtToken) {
             if (jwtToken != null) {
               Map<String, dynamic> decodedToken = JwtDecoder.decode(jwtToken);

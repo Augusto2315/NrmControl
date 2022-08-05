@@ -5,7 +5,8 @@ import 'package:nrmcontrolapp/Shared/Colors/screen_colors.dart';
 
 class PageIndexes {
   static const homePageIndex = 0;
-  static const despenseTypePageIndex = 1;
+  static const despenseTypePageIndex = 2;
+  static const logoutPageIndex = 4;
 }
 
 class CurvedNavgationBarWidget extends StatelessWidget {
@@ -42,6 +43,7 @@ class CurvedNavgationBarWidget extends StatelessWidget {
       color: Colors.white,
       items: const <Widget>[
         Icon(Icons.home, size: 25),
+        Icon(Icons.attach_money, size: 25),
         Icon(Icons.money, size: 25),
         Icon(Icons.settings, size: 25),
         Icon(Icons.login, size: 25),
@@ -51,7 +53,7 @@ class CurvedNavgationBarWidget extends StatelessWidget {
           routeService.home();
         } else if (index == PageIndexes.despenseTypePageIndex) {
           routeService.despenseType();
-        } else if (index == 3) {
+        } else if (index == PageIndexes.logoutPageIndex) {
           showDialog(
             context: context,
             builder: (BuildContext context) {

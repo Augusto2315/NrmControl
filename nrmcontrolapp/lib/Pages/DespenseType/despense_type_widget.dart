@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../Models/DespenseType/despense_type.dart';
 import '../../Shared/Colors/icons_colors.dart';
+import '../../Widgets/AlertsDialog/confirm_alert_dialog_widget.dart';
 import 'Blocs/FindDespensesByUser/find_despenses_by_user_bloc.dart';
 
 class DespenseTypeWidget extends StatelessWidget {
@@ -17,34 +18,50 @@ class DespenseTypeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final findDespenseByUserBloc = FindDespenseByUserBloc(context);
+    final findDespenseByUserBloc = FindDespenseByUserBloc(
+      context,
+    );
 
-    void deleteDespenseType(BuildContext context, DespenseType despenseType) {
-      DespenseTypeService()
-          .deleteDespenseType(despenseType, context)
-          .then((value) {
-        findDespenseByUserBloc.add(
-            Provider.of<UserState>(context, listen: false).loggedUser.userId);
-      });
+    Future<bool> confirmDelete() async {
+      return DialogAlerts.showConfirmAlertDialog(
+        context: context,
+        text: "Deseja excluir o Tipo de Despesa?",
+        title: "Excluir Tipo de Despesa",
+      );
     }
 
-    findDespenseByUserBloc
-        .add(Provider.of<UserState>(context).loggedUser.userId);
+    void deleteDespenseType(
+      BuildContext context,
+      DespenseType despenseType,
+    ) {
+      DespenseTypeService().deleteDespenseType(despenseType, context);
+    }
+
+    findDespenseByUserBloc.add(
+      Provider.of<UserState>(context).loggedUser.userId,
+    );
     return Column(
       children: [
         Expanded(
           child: BlocBuilder<FindDespenseByUserBloc, FindDespensesByUserState>(
             bloc: findDespenseByUserBloc,
-            builder: (context, state) {
+            builder: (
+              context,
+              state,
+            ) {
               if (state is FindDespensesByUserError) {
                 return Center(
                   child: Text(
                     state.message,
-                    style: const TextStyle(color: Colors.red),
+                    style: const TextStyle(
+                      color: Colors.red,
+                    ),
                   ),
                 );
               } else if (state is FindDespensesByUserLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
 
               state = state as FindDespensesByUserSuccess;
@@ -55,54 +72,77 @@ class DespenseTypeWidget extends StatelessWidget {
                     child: ListView.separated(
                       padding: const EdgeInsets.all(8),
                       itemCount: state.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap: () =>
-                              editDespenseType(listaDespesas[index], context),
-                          child: Container(
-                            height: 75,
-                            color: Colors.white,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                getIcon(listaDespesas[index]),
-                                const Spacer(),
-                                Center(
-                                  child: Text(
-                                    listaDespesas[index].description,
-                                  ),
-                                ),
-                                const Spacer(),
-                                Column(
-                                  children: [
-                                    const Text("Despesa Fixa"),
-                                    Switch(
-                                      value: listaDespesas[index].monthFixed,
-                                      onChanged: (bool value) => {},
-                                      activeTrackColor: Colors.lightGreenAccent,
-                                      activeColor: Colors.green,
-                                      splashRadius: 0,
-                                    ),
-                                  ],
-                                ),
-                                IconButton(
-                                  splashRadius: 40,
-                                  splashColor: Colors.lightGreenAccent,
-                                  onPressed: () => deleteDespenseType(
-                                    context,
+                      itemBuilder: (
+                        BuildContext context,
+                        int index,
+                      ) {
+                        return Dismissible(
+                          confirmDismiss: (DismissDirection direction) async {
+                            return await confirmDelete();
+                          },
+                          background: Container(color: Colors.redAccent),
+                          onDismissed: (direction) {
+                            deleteDespenseType(
+                              context,
+                              listaDespesas[index],
+                            );
+                          },
+                          key: Key(listaDespesas[index].id.toString()),
+                          child: InkWell(
+                            onTap: () => editDespenseType(
+                              listaDespesas[index],
+                              context,
+                            ),
+                            child: Container(
+                              height: 75,
+                              color: Colors.white,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  getIcon(
                                     listaDespesas[index],
                                   ),
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+                                  const Spacer(),
+                                  Center(
+                                    child: Text(
+                                      listaDespesas[index].description,
+                                    ),
                                   ),
-                                )
-                              ],
+                                  const Spacer(),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                          "Despesa Fixa",
+                                        ),
+                                        Switch(
+                                          value:
+                                              listaDespesas[index].monthFixed,
+                                          onChanged: (bool value) => {
+                                            editDespenseType(
+                                              listaDespesas[index],
+                                              context,
+                                            ),
+                                          },
+                                          activeTrackColor:
+                                              Colors.lightGreenAccent,
+                                          activeColor: Colors.green,
+                                          splashRadius: 0,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
                       },
-                      separatorBuilder: (BuildContext context, int index) =>
+                      separatorBuilder: (
+                        BuildContext context,
+                        int index,
+                      ) =>
                           const Divider(),
                     ),
                   ),
@@ -157,6 +197,5 @@ void createDespenseType(BuildContext context) {
 void editDespenseType(DespenseType despenseType, BuildContext context) {
   Provider.of<DespenseTypeFormState>(context, listen: false)
       .alterDespense(despenseType);
-
   RouteService().editDespenseType();
 }

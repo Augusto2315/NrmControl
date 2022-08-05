@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nrmcontrolapp/Services/jwt_service.dart';
 import 'package:nrmcontrolapp/Services/route_service.dart';
 import 'package:nrmcontrolapp/Widgets/Miscleaneous/custom_toast.dart';
@@ -15,7 +14,7 @@ class HttpService {
     JwtService jwtService = JwtService();
     String? jwtToken = await jwtService.getToken();
     if (jwtToken != null && jwtToken.isNotEmpty) {
-      validateExpiration(jwtToken, context);
+      logoutIfInvalid(JwtService.validateTokenExpiration(jwtToken), context);
       cabecalhos.addAll({'Authorization': "Bearer $jwtToken"});
     }
 
@@ -33,7 +32,7 @@ class HttpService {
     JwtService jwtService = JwtService();
     String? jwtToken = await jwtService.getToken();
     if (jwtToken != null && jwtToken.isNotEmpty) {
-      validateExpiration(jwtToken, context);
+      logoutIfInvalid(JwtService.validateTokenExpiration(jwtToken), context);
       cabecalhos.addAll({'Authorization': "Bearer $jwtToken"});
     }
 
@@ -51,7 +50,7 @@ class HttpService {
     JwtService jwtService = JwtService();
     String? jwtToken = await jwtService.getToken();
     if (jwtToken != null && jwtToken.isNotEmpty) {
-      validateExpiration(jwtToken, context);
+      logoutIfInvalid(JwtService.validateTokenExpiration(jwtToken), context);
       cabecalhos.addAll({'Authorization': "Bearer $jwtToken"});
     }
 
@@ -68,7 +67,7 @@ class HttpService {
     JwtService jwtService = JwtService();
     String? jwtToken = await jwtService.getToken();
     if (jwtToken != null && jwtToken.isNotEmpty) {
-      validateExpiration(jwtToken, context);
+      logoutIfInvalid(JwtService.validateTokenExpiration(jwtToken), context);
       cabecalhos.addAll({'Authorization': "Bearer $jwtToken"});
     }
 
@@ -78,13 +77,8 @@ class HttpService {
     );
   }
 
-  void validateExpiration(String jwtToken, BuildContext context) {
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(jwtToken);
-    int secondsSinceEpoch = decodedToken["exp"];
-    debugPrint((secondsSinceEpoch * 1000).toString());
-    debugPrint(DateTime.now().millisecondsSinceEpoch.toString());
-    if (DateTime.now().millisecondsSinceEpoch + 10000 >
-        secondsSinceEpoch * 1000) {
+  void logoutIfInvalid(bool invalid, BuildContext context) {
+    if (invalid) {
       CustomToast.showWarning(
           "Sua sessão foi encerrada pois passou o limite de validação do token de acesso\nÉ necessário logar novamente!",
           context);

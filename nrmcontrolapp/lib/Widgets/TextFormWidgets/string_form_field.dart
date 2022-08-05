@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nrmcontrolapp/Shared/Colors/icons_colors.dart';
 
 import '../../Shared/Icons/flutter_icons.dart';
@@ -14,6 +15,7 @@ class StringFormField extends StatefulWidget {
       this.onChanged,
       this.prefixIcon,
       this.sufixIcon,
+      this.textInputType,
       Key? key})
       : isOriginalPassword = isPassword,
         super(key: key);
@@ -22,6 +24,7 @@ class StringFormField extends StatefulWidget {
   final FocusNode? focusNode;
   final Function(String str)? onFieldSubmitted;
   final Function(String str)? onChanged;
+  final TextInputType? textInputType;
   bool isPassword;
   final Icon? prefixIcon;
   final Icon? sufixIcon;
@@ -33,6 +36,13 @@ class StringFormField extends StatefulWidget {
 class _StringFormFieldState extends State<StringFormField> {
   @override
   Widget build(BuildContext context) {
+    List<TextInputFormatter> textInputFormatter = [];
+
+    if (TextInputType.number == widget.textInputType) {
+      textInputFormatter
+          .add(FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})')));
+    }
+
     return TextFormField(
       controller: widget.controller,
       focusNode: widget.focusNode,
@@ -40,7 +50,9 @@ class _StringFormFieldState extends State<StringFormField> {
       enableSuggestions: !widget.isPassword,
       autocorrect: !widget.isPassword,
       onFieldSubmitted: widget.onFieldSubmitted,
+      keyboardType: widget.textInputType,
       onChanged: widget.onChanged,
+      inputFormatters: textInputFormatter,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         prefixIcon: widget.isOriginalPassword == true

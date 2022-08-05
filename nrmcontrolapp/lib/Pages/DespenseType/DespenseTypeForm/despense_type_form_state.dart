@@ -5,7 +5,7 @@ import 'package:nrmcontrolapp/Shared/Icons/flutter_icons.dart';
 import '../../../Shared/Colors/icons_colors.dart';
 
 class DespenseTypeFormState extends ChangeNotifier {
-  DespenseType _despense = DespenseType(0, "", "", false, null, null);
+  DespenseType _despense = DespenseType(0, "", "", false, null, null, null);
 
   DespenseType get getDespense {
     return _despense;
@@ -44,7 +44,7 @@ class DespenseTypeFormState extends ChangeNotifier {
   }
 
   void clearDespense() {
-    _despense = DespenseType(0, "", "", false, null, null);
+    _despense = DespenseType(0, "", "", false, null, null, null);
     notifyListeners();
   }
 }
